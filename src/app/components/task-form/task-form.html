@@ -1,0 +1,27 @@
+<section class="task-form">
+  <h2>Añadir nueva tarea</h2>
+  <form #taskForm="ngForm" (ngSubmit)="onSubmit(taskForm)">
+    <label>
+      Título:
+      <input type="text" name="title" #titleField="ngModel" [(ngModel)]="title" required />
+    </label>
+    <div *ngIf="(taskForm.submitted || titleField.touched) && titleField.invalid" class="error">
+      El título es obligatorio
+    </div>
+
+    <label>
+      Prioridad:
+      <select name="priority" #priorityField="ngModel" [(ngModel)]="priority" required>
+        <option value="" disabled>Selecciona prioridad</option>
+        <option value="Alta">Alta</option>
+        <option value="Media">Media</option>
+        <option value="Baja">Baja</option>
+      </select>
+    </label>
+    <div *ngIf="(taskForm.submitted || priorityField.touched) && priorityField.invalid" class="error">
+      La prioridad es obligatoria
+    </div>
+
+    <button type="submit">Añadir tarea</button>
+  </form>
+</section>

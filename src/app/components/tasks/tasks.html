@@ -1,0 +1,64 @@
+<section class="tasks">
+  <h2>Mis tareas</h2>
+
+  
+  <app-task-form (taskAdded)="loadTasks()"></app-task-form>
+
+
+  <p *ngIf="tasks.length === 0">
+    No tienes tareas todavía.
+  </p>
+
+  <div class="filters">
+  <label>
+    Estado:
+    <select [(ngModel)]="filterStatus">
+      <option value="Todas">Todas</option>
+      <option value="Pendiente">Pendiente</option>
+      <option value="Completada">Completada</option>
+    </select>
+  </label>
+
+  <label>
+    Prioridad:
+    <select [(ngModel)]="filterPriority">
+      <option value="Todas">Todas</option>
+      <option value="Alta">Alta</option>
+      <option value="Media">Media</option>
+      <option value="Baja">Baja</option>
+    </select>
+  </label>
+</div>
+
+  <ul>
+    <li *ngFor="let task of tasks | priorityFilter:filterStatus:filterPriority"
+        [ngClass]="{
+          completed: task.completed,
+          favorite: task.favorite
+        }">
+
+      <span [ngClass]="{
+        high: task.priority === 'Alta',
+        medium: task.priority === 'Media',
+        low: task.priority === 'Baja'
+      }">
+        {{ task.title | uppercase }} - {{ task.priority }}
+      </span>
+
+      <div class="actions">
+        <button (click)="toggleCompleted(task.id)">
+          {{ task.completed ? 'Pendiente' : 'Completada' }}
+        </button>
+
+        <button (click)="toggleFavorite(task.id)">
+          {{ task.favorite ? '★' : '☆' }}
+        </button>
+
+        <button (click)="deleteTask(task.id)">
+          Eliminar
+        </button>
+      </div>
+
+    </li>
+  </ul>
+</section>
